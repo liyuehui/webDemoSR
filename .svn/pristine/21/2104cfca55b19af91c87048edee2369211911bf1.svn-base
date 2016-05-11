@@ -1,0 +1,55 @@
+package com.lee;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.lee.bean.LoginResponse;
+
+/**
+ * Servlet implementation class MyServlet
+ */
+@WebServlet(urlPatterns = {"/login"})
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public LoginServlet() {
+		super();
+	}
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String phone = request.getParameter("mobileno");
+		String password = request.getParameter("password");
+		
+		System.err.println("mobileno "+phone + " password " +password );
+		
+		response.setCharacterEncoding("utf-8");
+		LoginResponse res = new LoginResponse();
+		res.code = 1;
+		res.msg = "登录成功";
+		LoginResponse.Data data = new LoginResponse.Data();
+		data.impassword = "gaoyuanyuan";
+		data.imuserid = "gaoyuanyuan";
+		data.userid = "10000";
+		data.level = 2;
+		res.data = data;
+		Gson gson = new Gson();
+		String str = gson.toJson(res);
+		response.getWriter().append(str);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	
+}

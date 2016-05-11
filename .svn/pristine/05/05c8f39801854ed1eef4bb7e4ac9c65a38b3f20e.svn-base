@@ -1,0 +1,95 @@
+package com.lee;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.lee.bean.SimpleResponse;
+import com.lee.bean.UserDetailInfo;
+import com.lee.bean.UserDetailInfo.StudyHistory;
+import com.lee.bean.UserDetailInfo.WorkHistory;
+
+/**
+ * Servlet implementation class MyServlet
+ */
+@WebServlet(urlPatterns = {"/getuser_info_id"})
+public class GetUserInfoByIdServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public GetUserInfoByIdServlet() {
+		super();
+	}
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String userid = request.getParameter("userid");
+		
+		System.err.println("getuser_info_id userid "+userid );
+		
+		response.setCharacterEncoding("utf-8");
+		
+		UserDetailInfo res = new UserDetailInfo();
+		res.code = 1;
+		UserDetailInfo.UserInfo data = new UserDetailInfo.UserInfo();
+		data.userid = "1545";
+		data.imuserid = "liyuehui";
+		data.realname = "李跃辉";
+		data.commentname = "美丽的传说";
+		data.gender = "男";
+		data.level = 2;
+		data.mobileno = "";
+		data.email="sgag@qq.com";
+		data.nickname = "gag";
+		data.portrait = GetAllUsersServlet.RequestURL+"liutao.jpg";
+		data.company = "微软";
+		data.position = "CEO";
+		data.industry = "化工";
+		data.city = "广州";
+		data.workaddress = "怀柔区xxx街道";
+		data.investstage= "天使，VC，PE";
+		data.investscale = "100万至3000万，3000万至5000万";
+		data.favcategory = "国内一级，国内二级";
+		data.provideresource = "资金，法务";
+		data.weibo = "http://myweibo";
+		data.weixin="weixin";
+		data.QQ = "54555578";
+
+		ArrayList<StudyHistory> listStudy = new ArrayList<StudyHistory>();
+		StudyHistory info1 = new StudyHistory();
+		info1.school = "清华大学";
+		info1.begintime = "2015/7";
+		info1.endtime="2014/6";
+		listStudy.add(info1);
+		listStudy.add(info1);
+		data.studyhistory = listStudy;
+		
+		ArrayList<WorkHistory> WorkStudy = new ArrayList<WorkHistory>();
+		WorkHistory info2 = new WorkHistory();
+		info2.company = "微软";
+		info2.begintime = "2015/7";
+		info2.endtime="2014/6";
+		WorkStudy.add(info2);
+		data.workhistory = WorkStudy;
+		res.data = data;
+		
+		Gson gson = new Gson();
+		String str = gson.toJson(res);
+		
+		response.getWriter().append(str);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	
+}

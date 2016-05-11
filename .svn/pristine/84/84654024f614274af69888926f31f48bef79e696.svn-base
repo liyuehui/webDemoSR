@@ -1,0 +1,146 @@
+package com.lee;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.lee.bean.FriendListInfo;
+import com.lee.bean.FriendListInfo.BannerInfo;
+import com.lee.bean.FriendListInfo.UserSimpleInfo;
+import com.lee.bean.SimpleResponse;
+
+/**
+ * 
+ * Servlet implementation class MyServlet
+ * 
+ */
+@WebServlet(urlPatterns = { "/getalluser" })
+public class GetAllUsersServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public static final String RequestURL = "http://192.168.1.12:8080/jiuyouweb/";
+
+	public GetAllUsersServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String type = request.getParameter("type");
+
+		FriendListInfo info = new FriendListInfo();
+		info.code = 1;
+		info.banners = getBannerInfo();
+		info.users = getUsers(type);
+
+		System.err.println("getalluser type " + type);
+
+		response.setCharacterEncoding("utf-8");
+
+		Gson gson = new Gson();
+		String str = gson.toJson(info);
+
+		response.getWriter().append(str);
+	}
+
+	//
+	private List<UserSimpleInfo> getUsers(String type) {
+		List<UserSimpleInfo> list = new ArrayList<UserSimpleInfo>();
+		if ("1".equals(type)) { //按照字母
+			for (int i = 0; i < 10; i++) {
+				UserSimpleInfo info = new UserSimpleInfo();
+				info.city = "北京市海淀区";
+				info.realname = "Smith" + i;
+				info.userid = 1548;
+				if (i == 0) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "A";
+					info.userid = 5887;
+					info.commentname = "刘德华";
+					info.level = 1;
+				} else if (i == 10) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "B";
+					info.commentname = "周润发";
+					info.level = 2;
+				} else if (i == 20) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "C";
+					info.commentname = "周星驰";
+					info.level = 3;
+				} else if (i == 30) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "D";
+					info.level = 1;
+				} else {
+					info.level = 2;
+					info.type = "";
+					info.portrait = "";
+					info.portrait = RequestURL+"liutao.jpg";
+				}
+				list.add(info);
+			}
+		} else if ("2".equals(type)) {
+			for (int i = 0; i < 1000; i++) {
+				UserSimpleInfo info = new UserSimpleInfo();
+				info.city = "上海市浦东新区";
+				info.realname = "Smith" + i;
+				info.userid = 1548;
+				if (i == 0) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "相同的爱好";
+					info.commentname = "刘德华";
+					info.level = 1;
+				} else if (i == 10) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "相同的学校";
+					info.commentname = "周润发";
+					info.level = 2;
+				} else if (i == 20) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "相同的血型";
+					info.commentname = "周星驰";
+					info.level = 3;
+				} else if (i == 30) {
+					info.portrait = RequestURL+"default_icon.png";
+					info.type = "相同的城市";
+					info.level = 1;
+				} else {
+					info.level = 2;
+					info.type = "";
+					info.portrait = "";
+					info.portrait = RequestURL+"liutao.jpg";
+				}
+				list.add(info);
+			}
+		}
+		return list;
+	}
+
+	//
+	private List<BannerInfo> getBannerInfo() {
+		ArrayList<BannerInfo> list = new ArrayList<BannerInfo>();
+		for (int i = 1; i < 6; i++) {
+			FriendListInfo.BannerInfo ban = new FriendListInfo.BannerInfo();
+			ban.portrait = RequestURL + "step" + i + ".png";
+			ban.title = "热烈欢迎"+i;
+			ban.url = "http://192.168.1.12:8080/jiuyouweb/index"+i+".html";
+			list.add(ban);
+		}
+		return list;
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
