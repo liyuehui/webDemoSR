@@ -41,9 +41,9 @@ public class LoginServlet extends HttpServlet {
 		info.bannerImgPath ="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1462799586&di=9441064f60b7db62a93b29635ee4b069&src=http://pic12.nipic.com/20101229/5123760_234026985000_2.jpg";
 		list.add(info);
 //		
-		BannerInfo info1 = new BannerInfo();
-		info1.bannerImgPath ="http://img.baizhan.net/uploads/allimg/160425/21_160425142633_1.jpg";
-		list.add(info1);
+//		BannerInfo info1 = new BannerInfo();
+//		info1.bannerImgPath ="http://img.baizhan.net/uploads/allimg/160425/21_160425142633_1.jpg";
+//		list.add(info1);
 		
 		res.data = list;
 		String str = gson.toJson(res);
